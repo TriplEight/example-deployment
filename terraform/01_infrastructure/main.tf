@@ -92,6 +92,7 @@ module "monitoring" {
   public_dns_zone           = var.public_dns_zone
   public_dns_zone_id        = module.dns_zones.public_zone_id
   private_dns_zone_id       = module.dns_zones.private_zone_id
+  ssh_ip_access_list        = var.ssh_ip_access_list
 
   tags = var.global_tags
 }
@@ -127,10 +128,9 @@ module "common_nodes_security_group" {
   monitoring_ips         = module.monitoring.monitoring_private_ips
   vpc_peerings           = var.vpc_peerings
   vpc_peerings_to_accept = var.vpc_peerings_to_accept
+  ssh_ip_access_list     = var.ssh_ip_access_list
 
   tags = var.global_tags
-
-
 }
 
 ####################
@@ -232,12 +232,12 @@ module "custom_load_balancer" {
 
   load_balancers = var.load_balancers
 
-  name                        = "${var.environment}-rpc-lb"
-  environment                 = var.environment
-  vpc_id                      = module.vpc.vpc_id
-  private_subnet_ids          = module.vpc.private_subnet_ids
-  public_dns_zone             = var.public_dns_zone
-  public_dns_zone_id          = module.dns_zones.public_zone_id
+  name               = "${var.environment}-rpc-lb"
+  environment        = var.environment
+  vpc_id             = module.vpc.vpc_id
+  private_subnet_ids = module.vpc.private_subnet_ids
+  public_dns_zone    = var.public_dns_zone
+  public_dns_zone_id = module.dns_zones.public_zone_id
 
   tags = var.global_tags
 }
